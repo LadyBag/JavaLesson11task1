@@ -21,6 +21,12 @@
             <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.7.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -45,13 +51,6 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>check</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <!-- id (придумываем сами) -->
                         <id>report</id>
                         <goals>
@@ -59,8 +58,19 @@
                             <goal>report</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+
                 </executions>
                 <configuration>
+                    <excludes>
+                        <exclude>domain/*</exclude>
+                    </excludes>
                     <rules>
                         <rule>
                             <limits>
