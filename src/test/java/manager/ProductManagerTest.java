@@ -26,29 +26,25 @@ class ProductManagerTest {
     Product anotherProduct;
     Book book1;
     Book book2;
+    Book book3;
     Smartphone smartphone1;
     Smartphone smartphone2;
+    Smartphone smartphone3;
 
     @BeforeEach
     private void setUp() {
 
         anotherProduct = new Product(0, "продукт", 0);
-       // manager.add(anotherProduct);
         book1 = new Book(1, "Война и мир", 100, "Толстой");
-        //manager.add(book1);
         book2 = new Book(2, "Бесприданница", 1001, "Островский");
-        //manager.add(book2);
+        book3 = new Book(5, "Анна Каренина", 2500,"Толстой");
         smartphone1 = new Smartphone(3, "Айфон", 1002, "Apple");
-        //manager.add(smartphone1);
         smartphone2 = new Smartphone(4, "m1", 1003, "Sony");
-        //manager.add(smartphone2);
-
-
+        smartphone3 = new Smartphone(6, "qwerty", 1001, "Бесприданница");
     }
 
     private Product[] getAllDumb(){
-        Product[] p = new Product[]{anotherProduct, book1, book2, smartphone1, smartphone2};
-        return new Product[]{anotherProduct, book1, book2, smartphone1, smartphone2};
+        return new Product[]{anotherProduct, book1, book2, smartphone1, smartphone2, book3, smartphone3};
     }
 
     @Test
@@ -64,8 +60,8 @@ class ProductManagerTest {
     void searchByAuthorBook() {
         Product[] returned = getAllDumb();
         doReturn(returned).when(repository).getAll();
-        Product[] actual = manager.searchBy("Толстой");
-        assertArrayEquals(new Product[]{book1}, actual);
+        Product[] actual = manager.searchBy("Островский");
+        assertArrayEquals(new Product[]{book2}, actual);
         verify(repository).getAll();
     }
 
@@ -86,6 +82,33 @@ class ProductManagerTest {
         doReturn(returned).when(repository).getAll();
         Product[] actual = manager.searchBy("Sony");
         assertArrayEquals(new Product[]{smartphone2}, actual);
+        verify(repository).getAll();
+    }
+
+    @Test
+    void searchByNothing() {
+        Product[] returned = getAllDumb();
+        doReturn(returned).when(repository).getAll();
+        Product[] actual = manager.searchBy("Достоевский");
+        assertArrayEquals(new Product[]{}, actual);
+        verify(repository).getAll();
+    }
+
+    @Test
+    void searchByMoreOne() {
+        Product[] returned = getAllDumb();
+        doReturn(returned).when(repository).getAll();
+        Product[] actual = manager.searchBy("Толстой");
+        assertArrayEquals(new Product[]{book1, book3}, actual);
+        verify(repository).getAll();
+    }
+
+    @Test
+    void searchByMoreOneDifferentProperties() {
+        Product[] returned = getAllDumb();
+        doReturn(returned).when(repository).getAll();
+        Product[] actual = manager.searchBy("Бесприданница");
+        assertArrayEquals(new Product[]{book2, smartphone3}, actual);
         verify(repository).getAll();
     }
 }

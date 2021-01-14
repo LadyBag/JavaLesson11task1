@@ -18,7 +18,7 @@ public class ProductManager {
         for (Product item : products) {
             if (matches(item, text)) {
                 Product[] tmp = new Product[result.length + 1];
-                // используйте System.arraycopy, чтобы скопировать всё из result в tmp
+                System.arraycopy(result, 0, tmp, 0, result.length);
                 tmp[tmp.length - 1] = item;
                 result = tmp;
             }
